@@ -1,1 +1,596 @@
+1 Session information
+We will use the following packages for the processing.
 
+library("devtools")
+library("knitr")
+library("rmarkdown")
+
+library("data.table")
+library("tidyverse")
+
+library("ranger")
+Some information about the current session follows.
+
+session_info()
+## - Session info ---------------------------------------------------------------
+##  setting  value
+##  version  R version 4.1.2 (2021-11-01)
+##  os       Windows 10 x64 (build 19043)
+##  system   x86_64, mingw32
+##  ui       RTerm
+##  language (EN)
+##  collate  English_United Kingdom.1252
+##  ctype    English_United Kingdom.1252
+##  tz       Europe/Istanbul
+##  date     2022-01-09
+##  pandoc   2.14.0.3 @ C:/Program Files/RStudio/bin/pandoc/ (via rmarkdown)
+## 
+## - Packages -------------------------------------------------------------------
+##  package     * version date (UTC) lib source
+##  assertthat    0.2.1   2019-03-21 [1] CRAN (R 4.1.0)
+##  backports     1.4.1   2021-12-13 [1] CRAN (R 4.1.2)
+##  broom         0.7.11  2022-01-03 [1] CRAN (R 4.1.2)
+##  bslib         0.3.1   2021-10-06 [1] CRAN (R 4.1.1)
+##  cachem        1.0.6   2021-08-19 [1] CRAN (R 4.1.0)
+##  callr         3.7.0   2021-04-20 [1] CRAN (R 4.1.0)
+##  cellranger    1.1.0   2016-07-27 [1] CRAN (R 4.1.0)
+##  cli           3.1.0   2021-10-27 [1] CRAN (R 4.1.1)
+##  colorspace    2.0-2   2021-06-24 [1] CRAN (R 4.1.0)
+##  crayon        1.4.2   2021-10-29 [1] CRAN (R 4.1.1)
+##  data.table  * 1.14.2  2021-09-27 [1] CRAN (R 4.1.1)
+##  DBI           1.1.2   2021-12-20 [1] CRAN (R 4.1.2)
+##  dbplyr        2.1.1   2021-04-06 [1] CRAN (R 4.1.0)
+##  desc          1.4.0   2021-09-28 [1] CRAN (R 4.1.1)
+##  devtools    * 2.4.3   2021-11-30 [1] CRAN (R 4.1.1)
+##  digest        0.6.29  2021-12-01 [1] CRAN (R 4.1.2)
+##  dplyr       * 1.0.7   2021-06-18 [1] CRAN (R 4.1.0)
+##  ellipsis      0.3.2   2021-04-29 [1] CRAN (R 4.1.0)
+##  evaluate      0.14    2019-05-28 [1] CRAN (R 4.1.0)
+##  fansi         0.5.0   2021-05-25 [1] CRAN (R 4.1.0)
+##  fastmap       1.1.0   2021-01-25 [1] CRAN (R 4.1.0)
+##  forcats     * 0.5.1   2021-01-27 [1] CRAN (R 4.1.0)
+##  fs            1.5.2   2021-12-08 [1] CRAN (R 4.1.2)
+##  generics      0.1.1   2021-10-25 [1] CRAN (R 4.1.1)
+##  ggplot2     * 3.3.5   2021-06-25 [1] CRAN (R 4.1.0)
+##  glue          1.6.0   2021-12-17 [1] CRAN (R 4.1.2)
+##  gtable        0.3.0   2019-03-25 [1] CRAN (R 4.1.0)
+##  haven         2.4.3   2021-08-04 [1] CRAN (R 4.1.0)
+##  hms           1.1.1   2021-09-26 [1] CRAN (R 4.1.1)
+##  htmltools     0.5.2   2021-08-25 [1] CRAN (R 4.1.1)
+##  httr          1.4.2   2020-07-20 [1] CRAN (R 4.1.0)
+##  jquerylib     0.1.4   2021-04-26 [1] CRAN (R 4.1.0)
+##  jsonlite      1.7.2   2020-12-09 [1] CRAN (R 4.1.1)
+##  knitr       * 1.37    2021-12-16 [1] CRAN (R 4.1.2)
+##  lattice       0.20-45 2021-09-22 [2] CRAN (R 4.1.2)
+##  lifecycle     1.0.1   2021-09-24 [1] CRAN (R 4.1.1)
+##  lubridate     1.8.0   2021-10-07 [1] CRAN (R 4.1.1)
+##  magrittr      2.0.1   2020-11-17 [1] CRAN (R 4.1.0)
+##  Matrix        1.3-4   2021-06-01 [2] CRAN (R 4.1.2)
+##  memoise       2.0.1   2021-11-26 [1] CRAN (R 4.1.1)
+##  modelr        0.1.8   2020-05-19 [1] CRAN (R 4.1.0)
+##  munsell       0.5.0   2018-06-12 [1] CRAN (R 4.1.0)
+##  pillar        1.6.4   2021-10-18 [1] CRAN (R 4.1.1)
+##  pkgbuild      1.3.1   2021-12-20 [1] CRAN (R 4.1.2)
+##  pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.1.0)
+##  pkgload       1.2.4   2021-11-30 [1] CRAN (R 4.1.1)
+##  prettyunits   1.1.1   2020-01-24 [1] CRAN (R 4.1.0)
+##  processx      3.5.2   2021-04-30 [1] CRAN (R 4.1.0)
+##  ps            1.6.0   2021-02-28 [1] CRAN (R 4.1.0)
+##  purrr       * 0.3.4   2020-04-17 [1] CRAN (R 4.1.0)
+##  R6            2.5.1   2021-08-19 [1] CRAN (R 4.1.0)
+##  ranger      * 0.13.1  2021-07-14 [1] CRAN (R 4.1.2)
+##  Rcpp          1.0.7   2021-07-07 [1] CRAN (R 4.1.0)
+##  readr       * 2.1.1   2021-11-30 [1] CRAN (R 4.1.1)
+##  readxl        1.3.1   2019-03-13 [1] CRAN (R 4.1.0)
+##  remotes       2.4.2   2021-11-30 [1] CRAN (R 4.1.1)
+##  reprex        2.0.1   2021-08-05 [1] CRAN (R 4.1.0)
+##  rlang         0.4.12  2021-10-18 [1] CRAN (R 4.1.1)
+##  rmarkdown   * 2.11    2021-09-14 [1] CRAN (R 4.1.1)
+##  rprojroot     2.0.2   2020-11-15 [1] CRAN (R 4.1.0)
+##  rstudioapi    0.13    2020-11-12 [1] CRAN (R 4.1.0)
+##  rvest         1.0.2   2021-10-16 [1] CRAN (R 4.1.1)
+##  sass          0.4.0   2021-05-12 [1] CRAN (R 4.1.0)
+##  scales        1.1.1   2020-05-11 [1] CRAN (R 4.1.0)
+##  sessioninfo   1.2.2   2021-12-06 [1] CRAN (R 4.1.2)
+##  stringi       1.7.6   2021-11-29 [1] CRAN (R 4.1.1)
+##  stringr     * 1.4.0   2019-02-10 [1] CRAN (R 4.1.0)
+##  testthat      3.1.1   2021-12-03 [1] CRAN (R 4.1.2)
+##  tibble      * 3.1.6   2021-11-07 [1] CRAN (R 4.1.1)
+##  tidyr       * 1.1.4   2021-09-27 [1] CRAN (R 4.1.1)
+##  tidyselect    1.1.1   2021-04-30 [1] CRAN (R 4.1.0)
+##  tidyverse   * 1.3.1   2021-04-15 [1] CRAN (R 4.1.0)
+##  tzdb          0.2.0   2021-10-27 [1] CRAN (R 4.1.1)
+##  usethis     * 2.1.5   2021-12-09 [1] CRAN (R 4.1.2)
+##  utf8          1.2.2   2021-07-24 [1] CRAN (R 4.1.0)
+##  vctrs         0.3.8   2021-04-29 [1] CRAN (R 4.1.0)
+##  withr         2.4.3   2021-11-30 [1] CRAN (R 4.1.1)
+##  xfun          0.29    2021-12-14 [1] CRAN (R 4.1.2)
+##  xml2          1.3.3   2021-11-30 [1] CRAN (R 4.1.1)
+##  yaml          2.2.1   2020-02-01 [1] CRAN (R 4.1.0)
+## 
+##  [1] C:/Users/Chris/Documents/R/win-library/4.1
+##  [2] C:/Program Files/R/R-4.1.2/library
+## 
+## ------------------------------------------------------------------------------
+We set a seed, to reproduce the analysis.
+
+set.seed(12345)
+2 Data loading
+load("06_final_data.RData")
+3 Some further proccesing
+data_df <- data.frame(data_df)
+basins <- list()
+
+basins$unique <- unique(data_df$STAID)
+
+basins$duplicated <- unique(data_df$STAID[duplicated(data_df$STAID)])
+
+basins$full <- which(!duplicated(data_df$STAID, fromLast = TRUE))
+
+basins$Appalachian_Highland <- which(data_df$region %in% "Appalachian_Highland")
+basins$Central_Lowland <- which(data_df$region %in% "Central_Lowland")
+basins$Coastal_Plain <- which(data_df$region %in% "Coastal_Plain")
+basins$Interior_Highlands <- which(data_df$region %in% "Interior_Highlands")
+basins$Others <- which(data_df$region %in% "Others")
+basins$Pacific_Mountain_System <- which(data_df$region %in% "Pacific_Mountain_System")
+4 Predictor combinations
+combs <- list()
+vars <- list()
+vars$full <- c("Bas_Morph", "climate", "HydroMod_Dams", "Landscape_Pat", "LC06_Basin", "Pop_Infrastr", "Soils", "Topo")
+
+combs$full <- unique(unlist(col_names[vars$full]))
+5 Defining lists of results
+model_list <- list()
+import_list <- list()
+6 Analysis
+6.1 Number of basins per region
+table(data_df$region)
+## 
+##    Appalachian_Highland         Central_Lowland           Coastal_Plain 
+##                      99                      26                      32 
+##      Interior_Highlands                  Others Pacific_Mountain_System 
+##                      26                      17                      11
+6.2 Mean shape parameter per region
+aggregate(shape_par ~ region, data = data_df, mean)
+##                    region  shape_par
+## 1    Appalachian_Highland 0.21137748
+## 2         Central_Lowland 0.19759545
+## 3           Coastal_Plain 0.18469133
+## 4      Interior_Highlands 0.17625660
+## 5                  Others 0.26068796
+## 6 Pacific_Mountain_System 0.04561142
+6.3 Full data, full predictors
+set.seed(12345)
+model_list$full <- ranger(y = data_df$shape_par[basins$full],
+    x = data_df[combs$full][basins$full, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$full <- data.frame(variable = names(importance(model_list$full)),
+    importance = importance(model_list$full),
+    region = "full",
+    ranking = rank(-importance(model_list$full)))
+import_list$full <- import_list$full[with(import_list$full, order(-importance)),]
+import_list$full
+##                            variable    importance region ranking
+## WD_BASIN                   WD_BASIN  2.656320e-03   full       1
+## LST32F_BASIN           LST32F_BASIN  2.599995e-03   full       2
+## WDMAX_BASIN             WDMAX_BASIN  2.121005e-03   full       3
+## PPTAVG_BASIN           PPTAVG_BASIN  1.733904e-03   full       4
+## FST32F_BASIN           FST32F_BASIN  1.592046e-03   full       5
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  1.570122e-03   full       6
+## RH_BASIN                   RH_BASIN  1.356812e-03   full       7
+## T_MIN_BASIN             T_MIN_BASIN  1.328544e-03   full       8
+## T_AVG_BASIN             T_AVG_BASIN  1.250256e-03   full       9
+## PET                             PET  1.224003e-03   full      10
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  1.176054e-03   full      11
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN  1.148622e-03   full      12
+## T_MAX_BASIN             T_MAX_BASIN  1.144569e-03   full      13
+## AWCAVE                       AWCAVE  1.016308e-03   full      14
+## SANDAVE                     SANDAVE  9.671951e-04   full      15
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND  8.600068e-04   full      16
+## SLOPE_PCT                 SLOPE_PCT  7.967369e-04   full      17
+## FRAGUN_BASIN           FRAGUN_BASIN  7.841426e-04   full      18
+## WDMIN_BASIN             WDMIN_BASIN  7.687209e-04   full      19
+## PLANTNLCD06             PLANTNLCD06  7.475042e-04   full      20
+## SILTAVE                     SILTAVE  6.422169e-04   full      21
+## IMPNLCD06                 IMPNLCD06  6.417389e-04   full      22
+## FORESTNLCD06           FORESTNLCD06  6.184740e-04   full      23
+## BDAVE                         BDAVE  5.999761e-04   full      24
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN  5.867036e-04   full      25
+## DEVNLCD06                 DEVNLCD06  5.601346e-04   full      26
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  5.389636e-04   full      27
+## CLAYAVE                     CLAYAVE  5.201287e-04   full      28
+## PERMAVE                     PERMAVE  5.141218e-04   full      29
+## DRAIN_SQKM               DRAIN_SQKM  4.888976e-04   full      30
+## BAS_COMPACTNESS     BAS_COMPACTNESS  4.169589e-04   full      31
+## T_MINSTD_BASIN       T_MINSTD_BASIN  4.044442e-04   full      32
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  3.150367e-04   full      33
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS  3.049142e-04   full      34
+## DDENS_2009               DDENS_2009  2.975758e-04   full      35
+## STOR_NOR_2009         STOR_NOR_2009  2.659350e-04   full      36
+## ASPECT_EASTNESS     ASPECT_EASTNESS  2.568358e-04   full      37
+## STOR_NID_2009         STOR_NID_2009  2.359449e-04   full      38
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS  8.123769e-06   full      39
+## MAJ_DDENS_2009       MAJ_DDENS_2009 -8.885380e-06   full      40
+6.4 Appalachian_Highland data, full predictors
+set.seed(12345)
+model_list$Appalachian_Highland <- ranger(y = data_df$shape_par[basins$Appalachian_Highland],
+    x = data_df[combs$full][basins$Appalachian_Highland, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Appalachian_Highland <- data.frame(variable = names(importance(model_list$Appalachian_Highland)),
+    importance = importance(model_list$Appalachian_Highland),
+    region = "Appalachian_Highland",
+    ranking = rank(-importance(model_list$Appalachian_Highland)))
+import_list$Appalachian_Highland <- import_list$Appalachian_Highland[with(import_list$Appalachian_Highland, order(-importance)),]
+import_list$Appalachian_Highland
+##                            variable    importance               region ranking
+## WDMIN_BASIN             WDMIN_BASIN  1.667262e-03 Appalachian_Highland       1
+## WD_BASIN                   WD_BASIN  1.659967e-03 Appalachian_Highland       2
+## WDMAX_BASIN             WDMAX_BASIN  1.647814e-03 Appalachian_Highland       3
+## SLOPE_PCT                 SLOPE_PCT  1.280690e-03 Appalachian_Highland       4
+## T_MIN_BASIN             T_MIN_BASIN  1.090494e-03 Appalachian_Highland       5
+## T_AVG_BASIN             T_AVG_BASIN  1.060321e-03 Appalachian_Highland       6
+## LST32F_BASIN           LST32F_BASIN  9.793389e-04 Appalachian_Highland       7
+## T_MAX_BASIN             T_MAX_BASIN  9.517665e-04 Appalachian_Highland       8
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  8.867885e-04 Appalachian_Highland       9
+## PET                             PET  8.637527e-04 Appalachian_Highland      10
+## IMPNLCD06                 IMPNLCD06  8.417062e-04 Appalachian_Highland      11
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN  7.436924e-04 Appalachian_Highland      12
+## FORESTNLCD06           FORESTNLCD06  7.426547e-04 Appalachian_Highland      13
+## FRAGUN_BASIN           FRAGUN_BASIN  7.231672e-04 Appalachian_Highland      14
+## DEVNLCD06                 DEVNLCD06  7.011396e-04 Appalachian_Highland      15
+## BAS_COMPACTNESS     BAS_COMPACTNESS  6.627718e-04 Appalachian_Highland      16
+## FST32F_BASIN           FST32F_BASIN  5.554319e-04 Appalachian_Highland      17
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  5.188125e-04 Appalachian_Highland      18
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  4.297517e-04 Appalachian_Highland      19
+## DDENS_2009               DDENS_2009  4.215839e-04 Appalachian_Highland      20
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN  4.045579e-04 Appalachian_Highland      21
+## T_MINSTD_BASIN       T_MINSTD_BASIN  3.279692e-04 Appalachian_Highland      22
+## PLANTNLCD06             PLANTNLCD06  3.104604e-04 Appalachian_Highland      23
+## DRAIN_SQKM               DRAIN_SQKM  2.989593e-04 Appalachian_Highland      24
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  2.666447e-04 Appalachian_Highland      25
+## STOR_NOR_2009         STOR_NOR_2009  2.444142e-04 Appalachian_Highland      26
+## SILTAVE                     SILTAVE  2.166556e-04 Appalachian_Highland      27
+## CLAYAVE                     CLAYAVE  1.903109e-04 Appalachian_Highland      28
+## PPTAVG_BASIN           PPTAVG_BASIN  1.853919e-04 Appalachian_Highland      29
+## STOR_NID_2009         STOR_NID_2009  1.845334e-04 Appalachian_Highland      30
+## SANDAVE                     SANDAVE  1.743312e-04 Appalachian_Highland      31
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS  1.288471e-04 Appalachian_Highland      32
+## BDAVE                         BDAVE  9.559433e-05 Appalachian_Highland      33
+## AWCAVE                       AWCAVE  7.778209e-05 Appalachian_Highland      34
+## PERMAVE                     PERMAVE  7.627808e-05 Appalachian_Highland      35
+## MAJ_DDENS_2009       MAJ_DDENS_2009  2.928081e-05 Appalachian_Highland      36
+## RH_BASIN                   RH_BASIN -4.087856e-06 Appalachian_Highland      37
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND -1.775669e-04 Appalachian_Highland      38
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS -1.775878e-04 Appalachian_Highland      39
+## ASPECT_EASTNESS     ASPECT_EASTNESS -2.224558e-04 Appalachian_Highland      40
+6.5 Central_Lowland data, full predictors
+set.seed(12345)
+model_list$Central_Lowland <- ranger(y = data_df$shape_par[basins$Central_Lowland],
+    x = data_df[combs$full][basins$Central_Lowland, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Central_Lowland <- data.frame(variable = names(importance(model_list$Central_Lowland)),
+    importance = importance(model_list$Central_Lowland),
+    region = "Central_Lowland",
+    ranking = rank(-importance(model_list$Central_Lowland)))
+import_list$Central_Lowland <- import_list$Central_Lowland[with(import_list$Central_Lowland, order(-importance)),]
+import_list$Central_Lowland
+##                            variable    importance          region ranking
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  8.520065e-03 Central_Lowland       1
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  8.261643e-03 Central_Lowland       2
+## IMPNLCD06                 IMPNLCD06  5.746673e-03 Central_Lowland       3
+## DEVNLCD06                 DEVNLCD06  5.294750e-03 Central_Lowland       4
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN  4.253867e-03 Central_Lowland       5
+## LST32F_BASIN           LST32F_BASIN  4.243778e-03 Central_Lowland       6
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  3.907945e-03 Central_Lowland       7
+## RH_BASIN                   RH_BASIN  3.820385e-03 Central_Lowland       8
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN  3.721327e-03 Central_Lowland       9
+## FST32F_BASIN           FST32F_BASIN  3.160798e-03 Central_Lowland      10
+## T_MIN_BASIN             T_MIN_BASIN  1.956259e-03 Central_Lowland      11
+## T_AVG_BASIN             T_AVG_BASIN  1.300558e-03 Central_Lowland      12
+## STOR_NID_2009         STOR_NID_2009  1.300044e-03 Central_Lowland      13
+## DDENS_2009               DDENS_2009  1.268231e-03 Central_Lowland      14
+## PET                             PET  1.241413e-03 Central_Lowland      15
+## FRAGUN_BASIN           FRAGUN_BASIN  1.147963e-03 Central_Lowland      16
+## BAS_COMPACTNESS     BAS_COMPACTNESS  1.046473e-03 Central_Lowland      17
+## T_MAX_BASIN             T_MAX_BASIN  1.033962e-03 Central_Lowland      18
+## SLOPE_PCT                 SLOPE_PCT  1.003508e-03 Central_Lowland      19
+## ASPECT_EASTNESS     ASPECT_EASTNESS  6.120430e-04 Central_Lowland      20
+## STOR_NOR_2009         STOR_NOR_2009  5.683168e-04 Central_Lowland      21
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  4.697919e-04 Central_Lowland      22
+## T_MINSTD_BASIN       T_MINSTD_BASIN  4.621932e-04 Central_Lowland      23
+## AWCAVE                       AWCAVE  3.859784e-04 Central_Lowland      24
+## WDMAX_BASIN             WDMAX_BASIN  3.190226e-04 Central_Lowland      25
+## PPTAVG_BASIN           PPTAVG_BASIN  3.060423e-04 Central_Lowland      26
+## WD_BASIN                   WD_BASIN  2.931059e-04 Central_Lowland      27
+## PLANTNLCD06             PLANTNLCD06  2.836014e-04 Central_Lowland      28
+## DRAIN_SQKM               DRAIN_SQKM  1.685517e-04 Central_Lowland      29
+## CLAYAVE                     CLAYAVE  1.482424e-04 Central_Lowland      30
+## SILTAVE                     SILTAVE  1.329556e-04 Central_Lowland      31
+## SANDAVE                     SANDAVE  7.115668e-05 Central_Lowland      32
+## MAJ_DDENS_2009       MAJ_DDENS_2009 -3.160662e-05 Central_Lowland      33
+## PERMAVE                     PERMAVE -4.526257e-05 Central_Lowland      34
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND -7.590661e-05 Central_Lowland      35
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS -7.992219e-05 Central_Lowland      36
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS -9.129303e-05 Central_Lowland      37
+## WDMIN_BASIN             WDMIN_BASIN -1.963223e-04 Central_Lowland      38
+## FORESTNLCD06           FORESTNLCD06 -2.157454e-04 Central_Lowland      39
+## BDAVE                         BDAVE -3.722380e-04 Central_Lowland      40
+6.6 Coastal_Plain data, full predictors
+set.seed(12345)
+model_list$Coastal_Plain <- ranger(y = data_df$shape_par[basins$Coastal_Plain],
+    x = data_df[combs$full][basins$Coastal_Plain, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Coastal_Plain <- data.frame(variable = names(importance(model_list$Coastal_Plain)),
+    importance = importance(model_list$Coastal_Plain),
+    region = "Coastal_Plain",
+    ranking = rank(-importance(model_list$Coastal_Plain)))
+import_list$Coastal_Plain <- import_list$Coastal_Plain[with(import_list$Coastal_Plain, order(-importance)),]
+import_list$Coastal_Plain
+##                            variable    importance        region ranking
+## AWCAVE                       AWCAVE  3.614063e-03 Coastal_Plain       1
+## SANDAVE                     SANDAVE  3.546958e-03 Coastal_Plain       2
+## PERMAVE                     PERMAVE  2.114461e-03 Coastal_Plain       3
+## PLANTNLCD06             PLANTNLCD06  1.937969e-03 Coastal_Plain       4
+## SILTAVE                     SILTAVE  1.616202e-03 Coastal_Plain       5
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND  1.454436e-03 Coastal_Plain       6
+## LST32F_BASIN           LST32F_BASIN  1.249652e-03 Coastal_Plain       7
+## PPTAVG_BASIN           PPTAVG_BASIN  9.985113e-04 Coastal_Plain       8
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  9.328003e-04 Coastal_Plain       9
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  6.566413e-04 Coastal_Plain      10
+## PET                             PET  6.536274e-04 Coastal_Plain      11
+## FORESTNLCD06           FORESTNLCD06  5.548916e-04 Coastal_Plain      12
+## FST32F_BASIN           FST32F_BASIN  5.503123e-04 Coastal_Plain      13
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS  4.867128e-04 Coastal_Plain      14
+## T_MIN_BASIN             T_MIN_BASIN  4.043126e-04 Coastal_Plain      15
+## WDMIN_BASIN             WDMIN_BASIN  3.405131e-04 Coastal_Plain      16
+## T_MAX_BASIN             T_MAX_BASIN  3.296530e-04 Coastal_Plain      17
+## MAJ_DDENS_2009       MAJ_DDENS_2009  3.077042e-04 Coastal_Plain      18
+## WD_BASIN                   WD_BASIN  3.011556e-04 Coastal_Plain      19
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  2.864022e-04 Coastal_Plain      20
+## DRAIN_SQKM               DRAIN_SQKM  2.854131e-04 Coastal_Plain      21
+## CLAYAVE                     CLAYAVE  2.841045e-04 Coastal_Plain      22
+## IMPNLCD06                 IMPNLCD06  2.489213e-04 Coastal_Plain      23
+## DEVNLCD06                 DEVNLCD06  2.289473e-04 Coastal_Plain      24
+## FRAGUN_BASIN           FRAGUN_BASIN  2.120030e-04 Coastal_Plain      25
+## T_AVG_BASIN             T_AVG_BASIN  1.478847e-04 Coastal_Plain      26
+## BDAVE                         BDAVE  1.416630e-04 Coastal_Plain      27
+## RH_BASIN                   RH_BASIN  1.402825e-04 Coastal_Plain      28
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  1.202742e-04 Coastal_Plain      29
+## STOR_NOR_2009         STOR_NOR_2009  7.775497e-05 Coastal_Plain      30
+## T_MINSTD_BASIN       T_MINSTD_BASIN  5.000490e-05 Coastal_Plain      31
+## STOR_NID_2009         STOR_NID_2009  3.703218e-05 Coastal_Plain      32
+## SLOPE_PCT                 SLOPE_PCT -1.808523e-05 Coastal_Plain      33
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN -5.568651e-05 Coastal_Plain      34
+## ASPECT_EASTNESS     ASPECT_EASTNESS -7.270276e-05 Coastal_Plain      35
+## WDMAX_BASIN             WDMAX_BASIN -8.274831e-05 Coastal_Plain      36
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS -1.639439e-04 Coastal_Plain      37
+## DDENS_2009               DDENS_2009 -1.770984e-04 Coastal_Plain      38
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN -2.354096e-04 Coastal_Plain      39
+## BAS_COMPACTNESS     BAS_COMPACTNESS -2.763124e-04 Coastal_Plain      40
+6.7 Interior_Highlands data, full predictors
+set.seed(12345)
+model_list$Interior_Highlands <- ranger(y = data_df$shape_par[basins$Interior_Highlands],
+    x = data_df[combs$full][basins$Interior_Highlands, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Interior_Highlands <- data.frame(variable = names(importance(model_list$Interior_Highlands)),
+    importance = importance(model_list$Interior_Highlands),
+    region = "Interior_Highlands",
+    ranking = rank(-importance(model_list$Interior_Highlands)))
+import_list$Interior_Highlands <- import_list$Interior_Highlands[with(import_list$Interior_Highlands, order(-importance)),]
+import_list$Interior_Highlands
+##                            variable    importance             region ranking
+## FST32F_BASIN           FST32F_BASIN  2.414403e-03 Interior_Highlands       1
+## LST32F_BASIN           LST32F_BASIN  1.707234e-03 Interior_Highlands       2
+## DDENS_2009               DDENS_2009  1.147404e-03 Interior_Highlands       3
+## BDAVE                         BDAVE  7.328844e-04 Interior_Highlands       4
+## T_MIN_BASIN             T_MIN_BASIN  4.732476e-04 Interior_Highlands       5
+## STOR_NID_2009         STOR_NID_2009  4.423332e-04 Interior_Highlands       6
+## T_AVG_BASIN             T_AVG_BASIN  3.669372e-04 Interior_Highlands       7
+## STOR_NOR_2009         STOR_NOR_2009  3.366228e-04 Interior_Highlands       8
+## PET                             PET  2.220899e-04 Interior_Highlands       9
+## CLAYAVE                     CLAYAVE  2.212516e-04 Interior_Highlands      10
+## SILTAVE                     SILTAVE  2.101153e-04 Interior_Highlands      11
+## PPTAVG_BASIN           PPTAVG_BASIN  2.021892e-04 Interior_Highlands      12
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  2.020605e-04 Interior_Highlands      13
+## WDMAX_BASIN             WDMAX_BASIN  1.301253e-04 Interior_Highlands      14
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  1.254791e-04 Interior_Highlands      15
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  8.742920e-05 Interior_Highlands      16
+## T_MINSTD_BASIN       T_MINSTD_BASIN  5.670834e-05 Interior_Highlands      17
+## SANDAVE                     SANDAVE  5.276586e-05 Interior_Highlands      18
+## DEVNLCD06                 DEVNLCD06  5.235509e-05 Interior_Highlands      19
+## PERMAVE                     PERMAVE  4.451736e-05 Interior_Highlands      20
+## IMPNLCD06                 IMPNLCD06  4.333105e-05 Interior_Highlands      21
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS  4.156325e-05 Interior_Highlands      22
+## T_MAX_BASIN             T_MAX_BASIN  3.523484e-05 Interior_Highlands      23
+## AWCAVE                       AWCAVE  2.831660e-05 Interior_Highlands      24
+## FORESTNLCD06           FORESTNLCD06  2.560498e-05 Interior_Highlands      25
+## FRAGUN_BASIN           FRAGUN_BASIN  1.957285e-05 Interior_Highlands      26
+## PLANTNLCD06             PLANTNLCD06  6.838614e-06 Interior_Highlands      27
+## MAJ_DDENS_2009       MAJ_DDENS_2009  4.787570e-06 Interior_Highlands      28
+## SLOPE_PCT                 SLOPE_PCT  3.501776e-06 Interior_Highlands      29
+## RH_BASIN                   RH_BASIN -3.655783e-05 Interior_Highlands      30
+## BAS_COMPACTNESS     BAS_COMPACTNESS -4.050757e-05 Interior_Highlands      31
+## DRAIN_SQKM               DRAIN_SQKM -4.219659e-05 Interior_Highlands      32
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND -4.381564e-05 Interior_Highlands      33
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN -7.315818e-05 Interior_Highlands      34
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN -1.305069e-04 Interior_Highlands      35
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN -1.327157e-04 Interior_Highlands      36
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS -1.609251e-04 Interior_Highlands      37
+## WDMIN_BASIN             WDMIN_BASIN -1.919055e-04 Interior_Highlands      38
+## WD_BASIN                   WD_BASIN -2.429279e-04 Interior_Highlands      39
+## ASPECT_EASTNESS     ASPECT_EASTNESS -3.082435e-04 Interior_Highlands      40
+6.8 Others data, full predictors
+set.seed(12345)
+model_list$Others <- ranger(y = data_df$shape_par[basins$Others],
+    x = data_df[combs$full][basins$Others, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Others <- data.frame(variable = names(importance(model_list$Others)),
+    importance = importance(model_list$Others),
+    region = "Others",
+    ranking = rank(-importance(model_list$Others)))
+import_list$Others <- import_list$Others[with(import_list$Others, order(-importance)),]
+import_list$Others
+##                            variable    importance region ranking
+## PPTAVG_BASIN           PPTAVG_BASIN  1.515530e-03 Others       1
+## WDMIN_BASIN             WDMIN_BASIN  1.495027e-03 Others       2
+## WDMAX_BASIN             WDMAX_BASIN  1.470195e-03 Others       3
+## WD_BASIN                   WD_BASIN  1.293004e-03 Others       4
+## T_MIN_BASIN             T_MIN_BASIN  1.282216e-03 Others       5
+## FST32F_BASIN           FST32F_BASIN  7.858545e-04 Others       6
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN  6.686834e-04 Others       7
+## SLOPE_PCT                 SLOPE_PCT  6.012885e-04 Others       8
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN  5.282525e-04 Others       9
+## T_MINSTD_BASIN       T_MINSTD_BASIN  4.276734e-04 Others      10
+## LST32F_BASIN           LST32F_BASIN  4.167811e-04 Others      11
+## T_AVG_BASIN             T_AVG_BASIN  3.328818e-04 Others      12
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  2.988014e-04 Others      13
+## PET                             PET  2.903345e-04 Others      14
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  2.626568e-04 Others      15
+## RH_BASIN                   RH_BASIN  2.513972e-04 Others      16
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK  2.256140e-04 Others      17
+## FRAGUN_BASIN           FRAGUN_BASIN  2.104910e-04 Others      18
+## IMPNLCD06                 IMPNLCD06  1.885239e-04 Others      19
+## DEVNLCD06                 DEVNLCD06  1.097009e-04 Others      20
+## SILTAVE                     SILTAVE  6.465531e-05 Others      21
+## DDENS_2009               DDENS_2009  2.884803e-05 Others      22
+## FORESTNLCD06           FORESTNLCD06  1.990390e-05 Others      23
+## BAS_COMPACTNESS     BAS_COMPACTNESS  1.639486e-05 Others      24
+## PERMAVE                     PERMAVE  1.190183e-05 Others      25
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND  1.287365e-06 Others      26
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  5.631646e-07 Others      27
+## BDAVE                         BDAVE -1.470619e-05 Others      28
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS -2.896226e-05 Others      29
+## PLANTNLCD06             PLANTNLCD06 -5.397844e-05 Others      30
+## AWCAVE                       AWCAVE -7.203050e-05 Others      31
+## MAJ_DDENS_2009       MAJ_DDENS_2009 -7.555349e-05 Others      32
+## DRAIN_SQKM               DRAIN_SQKM -1.062911e-04 Others      33
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS -1.233688e-04 Others      34
+## T_MAX_BASIN             T_MAX_BASIN -1.279512e-04 Others      35
+## SANDAVE                     SANDAVE -1.882424e-04 Others      36
+## CLAYAVE                     CLAYAVE -2.301512e-04 Others      37
+## STOR_NID_2009         STOR_NID_2009 -2.459323e-04 Others      38
+## ASPECT_EASTNESS     ASPECT_EASTNESS -2.558216e-04 Others      39
+## STOR_NOR_2009         STOR_NOR_2009 -3.099097e-04 Others      40
+6.9 Pacific_Mountain_System data, full predictors
+set.seed(12345)
+model_list$Pacific_Mountain_System <- ranger(y = data_df$shape_par[basins$Pacific_Mountain_System],
+    x = data_df[combs$full][basins$Pacific_Mountain_System, ],
+    num.trees = 2000,
+    importance = "permutation")
+import_list$Pacific_Mountain_System <- data.frame(variable = names(importance(model_list$Pacific_Mountain_System)),
+    importance = importance(model_list$Pacific_Mountain_System),
+    region = "Pacific_Mountain_System",
+    ranking = rank(-importance(model_list$Pacific_Mountain_System)))
+import_list$Pacific_Mountain_System <- import_list$Pacific_Mountain_System[with(import_list$Pacific_Mountain_System, order(-importance)),]
+import_list$Pacific_Mountain_System
+##                            variable    importance                  region
+## T_MIN_BASIN             T_MIN_BASIN  2.475995e-04 Pacific_Mountain_System
+## ASPECT_EASTNESS     ASPECT_EASTNESS  2.397714e-04 Pacific_Mountain_System
+## BAS_COMPACTNESS     BAS_COMPACTNESS  1.866250e-04 Pacific_Mountain_System
+## T_MINSTD_BASIN       T_MINSTD_BASIN  1.096806e-04 Pacific_Mountain_System
+## SNOW_PCT_PRECIP     SNOW_PCT_PRECIP  1.022698e-04 Pacific_Mountain_System
+## T_AVG_BASIN             T_AVG_BASIN  5.522625e-05 Pacific_Mountain_System
+## CLAYAVE                     CLAYAVE  3.880592e-05 Pacific_Mountain_System
+## HIRES_LENTIC_DENS HIRES_LENTIC_DENS  3.638059e-05 Pacific_Mountain_System
+## PERMAVE                     PERMAVE  3.019900e-05 Pacific_Mountain_System
+## FST32F_BASIN           FST32F_BASIN  2.010443e-05 Pacific_Mountain_System
+## ROADS_KM_SQ_KM       ROADS_KM_SQ_KM  1.877287e-05 Pacific_Mountain_System
+## ASPECT_NORTHNESS   ASPECT_NORTHNESS  1.663940e-05 Pacific_Mountain_System
+## ELEV_MEAN_M_BASIN ELEV_MEAN_M_BASIN  1.335942e-05 Pacific_Mountain_System
+## SANDAVE                     SANDAVE  5.061272e-06 Pacific_Mountain_System
+## FRAGUN_BASIN           FRAGUN_BASIN  4.298170e-06 Pacific_Mountain_System
+## LST32F_BASIN           LST32F_BASIN  8.114160e-10 Pacific_Mountain_System
+## MAJ_DDENS_2009       MAJ_DDENS_2009  0.000000e+00 Pacific_Mountain_System
+## STOR_NOR_2009         STOR_NOR_2009 -2.870159e-06 Pacific_Mountain_System
+## BDAVE                         BDAVE -1.007091e-05 Pacific_Mountain_System
+## T_MAX_BASIN             T_MAX_BASIN -1.449202e-05 Pacific_Mountain_System
+## DDENS_2009               DDENS_2009 -1.538170e-05 Pacific_Mountain_System
+## PET                             PET -1.706431e-05 Pacific_Mountain_System
+## STOR_NID_2009         STOR_NID_2009 -1.895276e-05 Pacific_Mountain_System
+## DEVNLCD06                 DEVNLCD06 -2.511047e-05 Pacific_Mountain_System
+## PLANTNLCD06             PLANTNLCD06 -2.644095e-05 Pacific_Mountain_System
+## IMPNLCD06                 IMPNLCD06 -4.033092e-05 Pacific_Mountain_System
+## PRECIP_SEAS_IND     PRECIP_SEAS_IND -4.477292e-05 Pacific_Mountain_System
+## T_MAXSTD_BASIN       T_MAXSTD_BASIN -4.479049e-05 Pacific_Mountain_System
+## SILTAVE                     SILTAVE -4.819447e-05 Pacific_Mountain_System
+## DRAIN_SQKM               DRAIN_SQKM -4.841977e-05 Pacific_Mountain_System
+## RH_BASIN                   RH_BASIN -5.161445e-05 Pacific_Mountain_System
+## SLOPE_PCT                 SLOPE_PCT -6.874657e-05 Pacific_Mountain_System
+## FORESTNLCD06           FORESTNLCD06 -7.218593e-05 Pacific_Mountain_System
+## PDEN_2000_BLOCK     PDEN_2000_BLOCK -7.873885e-05 Pacific_Mountain_System
+## ELEV_STD_M_BASIN   ELEV_STD_M_BASIN -1.026962e-04 Pacific_Mountain_System
+## WD_BASIN                   WD_BASIN -1.158489e-04 Pacific_Mountain_System
+## AWCAVE                       AWCAVE -1.501315e-04 Pacific_Mountain_System
+## PPTAVG_BASIN           PPTAVG_BASIN -1.715062e-04 Pacific_Mountain_System
+## WDMIN_BASIN             WDMIN_BASIN -1.974502e-04 Pacific_Mountain_System
+## WDMAX_BASIN             WDMAX_BASIN -4.138254e-04 Pacific_Mountain_System
+##                   ranking
+## T_MIN_BASIN             1
+## ASPECT_EASTNESS         2
+## BAS_COMPACTNESS         3
+## T_MINSTD_BASIN          4
+## SNOW_PCT_PRECIP         5
+## T_AVG_BASIN             6
+## CLAYAVE                 7
+## HIRES_LENTIC_DENS       8
+## PERMAVE                 9
+## FST32F_BASIN           10
+## ROADS_KM_SQ_KM         11
+## ASPECT_NORTHNESS       12
+## ELEV_MEAN_M_BASIN      13
+## SANDAVE                14
+## FRAGUN_BASIN           15
+## LST32F_BASIN           16
+## MAJ_DDENS_2009         17
+## STOR_NOR_2009          18
+## BDAVE                  19
+## T_MAX_BASIN            20
+## DDENS_2009             21
+## PET                    22
+## STOR_NID_2009          23
+## DEVNLCD06              24
+## PLANTNLCD06            25
+## IMPNLCD06              26
+## PRECIP_SEAS_IND        27
+## T_MAXSTD_BASIN         28
+## SILTAVE                29
+## DRAIN_SQKM             30
+## RH_BASIN               31
+## SLOPE_PCT              32
+## FORESTNLCD06           33
+## PDEN_2000_BLOCK        34
+## ELEV_STD_M_BASIN       35
+## WD_BASIN               36
+## AWCAVE                 37
+## PPTAVG_BASIN           38
+## WDMIN_BASIN            39
+## WDMAX_BASIN            40
+6.10 Rankings of importances per region
+import_list <- data.table(do.call(what = "rbind", args = import_list))
+
+
+7 Leave-one-out cross-validation
+modelrf <- list()
+predrf <- data.frame(shape = data_df$shape_par[basins$full], pred_shape = NA)
+set.seed(12345)
+
+for (i in 1:length(predrf$shape))
+{
+    modelrf <- ranger(y = data_df$shape_par[basins$full][-i],
+        x = data_df[combs$full][basins$full, ][-i, ],
+        num.trees = 2000,
+        importance = "permutation")
+
+    predrf$pred_shape[i] <- predict(object = modelrf,
+        data = data_df[combs$full][basins$full, ][i, ])$predictions
+}
+rm(i, modelrf)
+predrf$error <- predrf$pred_shape - predrf$shape
+sqrt(mean((predrf$error)^2))
+## [1] 0.1755295
