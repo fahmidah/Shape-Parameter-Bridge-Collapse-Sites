@@ -1,0 +1,9 @@
+library(MASS)
+x <- Appalachian.$shape_par
+fit <- fitdistr(x, "normal")
+class(fit)
+[1] "fitdistr"
+para <- fit$estimate
+hist(x, prob = TRUE)
+curve(dnorm(x, para[1], para[2]), col = 2, add = TRUE)
+shapiro.test(LakeHuron)
